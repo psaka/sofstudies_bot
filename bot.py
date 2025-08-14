@@ -12,7 +12,7 @@ def send_text(message):
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton('Она не работает..', callback_data='send_1'))
+    markup.add(types.InlineKeyboardButton('Она не работает..', callback_data='nune'))
     markup.add(types.InlineKeyboardButton('И она тоже', callback_data='nune'))
     bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}!', reply_markup=markup)
 
@@ -20,7 +20,7 @@ def start(message):
 def send_options(message):
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton('Отправить картинку', callback_data='send_1'))
-    markup.add(types.InlineKeyboardButton('Отправить PDF', callback_data='nune'))
+    markup.add(types.InlineKeyboardButton('Отправить PDF', callback_data='send_2'))
     bot.send_message(message.chat.id, 'Выбери, что отправить:', reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -30,13 +30,13 @@ def handle_callback(call):
             with open('fox_pic.jpg', 'rb') as photo:
                 bot.send_photo(call.message.chat.id, photo)
         except FileNotFoundError:
-            bot.send_message(call.message.chat.id, '⚠ Файл fox_pic.jpg не найден!')
-    elif call.data == 'nune':
+            bot.send_message(call.message.chat.id, 'а вот и нет файла')
+    elif call.data == 'send_2':
         try:
             with open('fox_doc.pdf', 'rb') as doc:
                 bot.send_document(call.message.chat.id, doc)
         except FileNotFoundError:
-            bot.send_message(call.message.chat.id, '⚠ Файл fox_doc.pdf не найден!')
+            bot.send_message(call.message.chat.id, 'а вот и нет файла')
     bot.answer_callback_query(call.id)
 
 # Обработка текста
